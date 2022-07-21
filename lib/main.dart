@@ -1,6 +1,7 @@
 import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/auth_screen.dart';
 import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/screens/navigation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     if(user != null){
       DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
       UserModel userModel = UserModel.fromJson(userData);
-      return HomeScreen(userModel);
+      return Navigation(userModel);
     }else{
       return AuthScreen();
     }
