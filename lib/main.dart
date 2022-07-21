@@ -1,5 +1,7 @@
 import 'package:chat_application/models/user_model.dart';
+import 'package:chat_application/screens/add_lesson_detail_screen.dart';
 import 'package:chat_application/screens/auth_screen.dart';
+import 'package:chat_application/screens/edit_lesson_detail_screen.dart';
 import 'package:chat_application/screens/home_screen.dart';
 import 'package:chat_application/screens/navigation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,10 +24,22 @@ class MyApp extends StatelessWidget {
     if(user != null){
       DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
       UserModel userModel = UserModel.fromJson(userData);
-      return Navigation(userModel);
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Navigation(userModel),
+        routes: {
+          EditLessonDetailScreen.routeName: (_) {
+            return EditLessonDetailScreen();
+          },
+          AddLessonDetailScreen.routeName: (_) {
+            return AddLessonDetailScreen();
+          }
+        },
+      );
     }else{
       return AuthScreen();
     }
+    
   }
   @override
   Widget build(BuildContext context) {

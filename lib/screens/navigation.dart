@@ -1,5 +1,6 @@
 import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/screens/lesson_detail_list.screen.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {
@@ -13,13 +14,10 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
 
   int _currentIndex = 0;
-
-    
-
-
   @override
   Widget build(BuildContext context) {
     final pages = [
+      LessonDetailListScreen(),
       HomeScreen(widget.user),
     ];
     return Scaffold(
@@ -38,6 +36,11 @@ class _NavigationState extends State<Navigation> {
             selectedIcon: Icon(Icons.description),
             icon: Icon(Icons.description_outlined),
             label: 'lesson',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.chat),
+            icon: Icon(Icons.chat_outlined),
+            label: 'Chat',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.format_list_bulleted),
