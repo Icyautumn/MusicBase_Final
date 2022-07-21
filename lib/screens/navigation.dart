@@ -2,6 +2,7 @@ import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/home_screen.dart';
 import 'package:chat_application/screens/homework_detail_screen.dart';
 import 'package:chat_application/screens/lesson_detail_list.screen.dart';
+import 'package:chat_application/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {
@@ -21,6 +22,7 @@ class _NavigationState extends State<Navigation> {
       LessonDetailListScreen(),
       HomeScreen(widget.user),
       HomeworkDetailListScreen(),
+      SettingScreen()
     ];
     return Scaffold(
       body: Center(

@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^0.8.4+9
   firebase_storage: ^10.2.7
   flutter_local_notifications: ^9.5.1
+  flutter_inappwebview: ^5.4.3+7
   
 
 dev_dependencies:
