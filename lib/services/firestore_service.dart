@@ -1,4 +1,5 @@
 
+import 'package:chat_application/models/homework_detail.dart';
 import 'package:chat_application/models/lesson_detail.dart';
 import 'package:chat_application/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -41,5 +42,36 @@ class FirestoreService {
       'dateCreated': dateCreated,
       'studentEmail': studentEmail,
     });
+  }
+
+
+
+  Stream<List<HomeworkDetail>> getHomeworkDetail() {
+    return FirebaseFirestore.instance.collection('HomeworkDetail')
+    .where('teacherEmail', isEqualTo: authService.getCurrentUser()!.email).
+    snapshots().map(
+        (snapshot) => snapshot.docs
+            .map<HomeworkDetail>((doc) => HomeworkDetail.fromMap(doc.data(), doc.id))
+            .toList());
+  }
+
+  addHomeworkScreen(homeworkDetail, studentEmail, datePicked) {
+    return FirebaseFirestore.instance.collection('HomeworkDetail').add({
+      'teacherEmail' : authService.getCurrentUser()!.email ,
+      'HomeworkDetail': homeworkDetail,
+      'dueDate': datePicked,
+      'studentEmail': studentEmail,
+      'isDone' : false
+    });
+  }
+
+  removeHomework(id) {
+    return FirebaseFirestore.instance.collection('HomeworkDetail').doc(id).delete();
+  }
+
+  changeToDone(id, isDone){
+    return FirebaseFirestore.instance.collection('HomeworkDetail').doc(id).update({
+      'isDone' : !isDone,
+  });
   }
 }

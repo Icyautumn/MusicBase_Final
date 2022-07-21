@@ -1,6 +1,8 @@
 import 'package:chat_application/models/user_model.dart';
+import 'package:chat_application/screens/add_homework_detail_screen.dart';
 import 'package:chat_application/screens/add_lesson_detail_screen.dart';
 import 'package:chat_application/screens/auth_screen.dart';
+import 'package:chat_application/screens/edit_homework_detail_screen.dart';
 import 'package:chat_application/screens/edit_lesson_detail_screen.dart';
 import 'package:chat_application/screens/home_screen.dart';
 import 'package:chat_application/screens/navigation.dart';
@@ -33,6 +35,12 @@ class MyApp extends StatelessWidget {
           },
           AddLessonDetailScreen.routeName: (_) {
             return AddLessonDetailScreen();
+          },
+          AddHomeworkDetailScreen.routeName: (_) {
+            return AddHomeworkDetailScreen();
+          },
+          EditHomeworkDetailScreen.routeName: (_) {
+            return EditHomeworkDetailScreen();
           }
         },
       );
