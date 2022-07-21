@@ -1,5 +1,6 @@
 import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/screens/homework_detail_screen.dart';
 import 'package:chat_application/screens/lesson_detail_list.screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _NavigationState extends State<Navigation> {
     final pages = [
       LessonDetailListScreen(),
       HomeScreen(widget.user),
+      HomeworkDetailListScreen(),
     ];
     return Scaffold(
       body: Center(

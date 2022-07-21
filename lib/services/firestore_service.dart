@@ -74,4 +74,11 @@ class FirestoreService {
       'isDone' : !isDone,
   });
   }
+  editHomework(id, homeworkDetail, studentEmail, datePicked) {
+    return FirebaseFirestore.instance.collection('HomeworkDetail').doc(id).update({
+      'HomeworkDetail': homeworkDetail,
+      'dueDate': datePicked,
+      'studentEmail': studentEmail,
+    });
+  }
 }
