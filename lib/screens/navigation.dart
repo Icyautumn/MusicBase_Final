@@ -2,6 +2,7 @@ import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/home_screen.dart';
 import 'package:chat_application/screens/homework_detail_screen.dart';
 import 'package:chat_application/screens/lesson_detail_list.screen.dart';
+import 'package:chat_application/screens/metronome.dart';
 import 'package:chat_application/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,9 @@ class _NavigationState extends State<Navigation> {
       LessonDetailListScreen(),
       HomeScreen(widget.user),
       HomeworkDetailListScreen(),
-      SettingScreen()
+      Metronome(),
+      SettingScreen(),
+      
     ];
     return Scaffold(
       body: Center(
@@ -39,7 +42,7 @@ class _NavigationState extends State<Navigation> {
           NavigationDestination(
             selectedIcon: Icon(Icons.description),
             icon: Icon(Icons.description_outlined),
-            label: 'lesson',
+            label: 'Lesson',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.chat),
@@ -49,12 +52,17 @@ class _NavigationState extends State<Navigation> {
           NavigationDestination(
             selectedIcon: Icon(Icons.format_list_bulleted),
             icon: Icon(Icons.format_list_bulleted_outlined),
-            label: 'homework',
+            label: 'Homework',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.speed),
+            icon: Icon(Icons.speed_outlined),
+            label: 'Metronome',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.account_circle),
             icon: Icon(Icons.account_circle_outlined),
-            label: 'profile',
+            label: 'Profile',
           ),
         ],
       ),
