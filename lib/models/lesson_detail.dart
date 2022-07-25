@@ -2,31 +2,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LessonDetail {
   String id;
-  String teacherEmail;
+  String teacherUsername;
   
   DateTime? dateCreated;
   String? lessonType;
   String? lessonDetail;
   String? lessonImages;
-  String? studentEmail;
+  String? studentUsername;
 
   LessonDetail(
       {
         required this.id,
-      required this.teacherEmail,
+      required this.teacherUsername,
       required this.lessonType,
       required this.lessonDetail,
       required this.lessonImages,
-      required this.studentEmail,
+      required this.studentUsername,
       required this.dateCreated});
 
   LessonDetail.fromMap(Map<String, dynamic> snapshot, String id)
       : id = id,
-        teacherEmail = snapshot['teacherEmail'] ?? '', 
+        teacherUsername = snapshot['teacherUsername'] ?? '', 
         lessonType = snapshot['lessonType'] ?? '',
         lessonImages = snapshot['lessonImage'] ?? '',
         lessonDetail = snapshot['LessonDetail'] ?? '',
-        studentEmail = snapshot['studentEmail'] ?? '',
+        studentUsername = snapshot['studentUsername'] ?? '',
         dateCreated =
             (snapshot['dateCreated'] ?? Timestamp.now() as Timestamp).toDate();
 }

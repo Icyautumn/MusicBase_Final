@@ -13,7 +13,7 @@ class EditHomeworkDetailScreen extends StatefulWidget {
 class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
   var form = GlobalKey<FormState>();
   dynamic homeworkDetail;
-  String? studentEmail;
+  String? studentUsername;
   DateTime? datePicked;
 
 
@@ -25,9 +25,9 @@ class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
       FirestoreService fsService = FirestoreService();
 
       if(datePicked == null){
-        fsService.editHomework(id, homeworkDetail, studentEmail, dateNotChanged);
+        fsService.editHomework(id, homeworkDetail, studentUsername, dateNotChanged);
       }else{
-        fsService.editHomework(id, homeworkDetail, studentEmail, datePicked);
+        fsService.editHomework(id, homeworkDetail, studentUsername, datePicked);
       }
     }
 
@@ -100,14 +100,14 @@ class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
                 },
               ), 
               TextFormField(
-                initialValue: selectedHomeworkDetail.studentEmail,
+                initialValue: selectedHomeworkDetail.studentUsername,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "enter student Username"),
                 autofocus: true,
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
-                  studentEmail = newText;
+                  studentUsername = newText;
                 },
               ),
               Row(

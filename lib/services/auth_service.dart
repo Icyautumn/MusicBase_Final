@@ -1,3 +1,5 @@
+import 'package:chat_application/models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -19,7 +21,12 @@ class AuthService {
     return FirebaseAuth.instance.signOut();
   }
 
-  User? getCurrentUser() {
-    return FirebaseAuth.instance.currentUser;
+  Future<String> getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get();
+    return UserModel.fromJson(userData).username;
   }
 }

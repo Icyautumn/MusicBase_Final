@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:chat_application/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 
 class AddLessonDetailScreen extends StatefulWidget {
   static String routeName = '/add-lesson';
+  UserModel user;
+  AddLessonDetailScreen(this.user);
 
   @override
   State<AddLessonDetailScreen> createState() => _AddLessonDetailScreenState();
@@ -19,7 +22,7 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
   String? lessonDetail;
   DateTime? dateCreated;
 
-  String? studentEmail;
+  String? studentUsername;
   File? lessonPhoto;
 
   void saveForm(context, datechosen) {
@@ -55,7 +58,7 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
             (task) => task.ref.getDownloadURL().then(
               (lessonImage) {
                 print(dateCreated);
-                fsService.addLessonScreen(lessonType, lessonDetail, lessonImage, datechosen, studentEmail);
+                fsService.addLessonScreen(lessonType, lessonDetail, lessonImage, datechosen, studentUsername, widget.user.username);
               },
             ),
           );
@@ -161,15 +164,15 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(label: Text('studentEmail')),
+                decoration: InputDecoration(label: Text('studentUsername')),
                 validator: (value) {
                   if (value == null)
-                    return 'Please provide student Email';
+                    return 'Please provide student Username';
                   else
                     return null;
                 },
                 onSaved: (value) {
-                  studentEmail = value;
+                  studentUsername = value;
                 },
               ),
               Row(

@@ -4,18 +4,18 @@ class HomeworkDetail{
   String id;
   final String homeworkDetail;
   bool isDone;
-  String teacherEmail;
+  String teacherUsername;
   DateTime dueDate;
-  String studentEmail;
+  String studentUsername;
 
-  HomeworkDetail({required this.id,required this.homeworkDetail, required this.isDone, required this.teacherEmail, required this.dueDate, required this.studentEmail});
+  HomeworkDetail({required this.id,required this.homeworkDetail, required this.isDone, required this.teacherUsername, required this.dueDate, required this.studentUsername});
 
   HomeworkDetail.fromMap(Map<String, dynamic> snapshot, String id)
       : id = id,
         homeworkDetail = snapshot['HomeworkDetail'] ?? '', 
         isDone = snapshot['isDone'] ?? '',
-        teacherEmail = snapshot['teacherEmail'] ?? '',
-        studentEmail = snapshot['studentEmail'] ?? '',
+        teacherUsername = snapshot['teacherUsername'] ?? '',
+        studentUsername = snapshot['studentUsername'] ?? '',
         dueDate =
             (snapshot['dueDate'] ?? Timestamp.now() as Timestamp).toDate();
 }

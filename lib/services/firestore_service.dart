@@ -8,22 +8,30 @@ import 'package:firebase_core/firebase_core.dart';
 class FirestoreService {
   AuthService authService = AuthService();
 
-  addLessonScreen(lessonType, lessonDetail, lessonImage, dateCreated, studentEmail) {
-    print(authService.getCurrentUser()!.email );
+  addLessonScreen(lessonType, lessonDetail, lessonImage, dateCreated, studentUsername, teacherUsername) {
     return FirebaseFirestore.instance.collection('LessonDetail').add({
-      'teacherEmail' : authService.getCurrentUser()!.email ,
+      'teacherUsername' : teacherUsername,
       'lessonType': lessonType,
       'LessonDetail': lessonDetail,
       'lessonImage': lessonImage,
       'dateCreated': dateCreated,
-      'studentEmail': studentEmail,
+      'studentUsername': studentUsername,
     });
   }
 
 
-  Stream<List<LessonDetail>> getLessonDetail() {
+  Stream<List<LessonDetail>> getTeacherLessonDetail(teacherUsername) {
     return FirebaseFirestore.instance.collection('LessonDetail')
-    .where('teacherEmail', isEqualTo: authService.getCurrentUser()!.email).
+    .where('teacherUsername', isEqualTo: teacherUsername).
+    snapshots().map(
+        (snapshot) => snapshot.docs
+            .map<LessonDetail>((doc) => LessonDetail.fromMap(doc.data(), doc.id))
+            .toList());
+  }
+
+  Stream<List<LessonDetail>> getStudentLessonDetail(studentUsername) {
+    return FirebaseFirestore.instance.collection('LessonDetail')
+    .where('studentUsername', isEqualTo: studentUsername).
     snapshots().map(
         (snapshot) => snapshot.docs
             .map<LessonDetail>((doc) => LessonDetail.fromMap(doc.data(), doc.id))
@@ -34,34 +42,43 @@ class FirestoreService {
     return FirebaseFirestore.instance.collection('LessonDetail').doc(id).delete();
   }
 
-  editLesson(id, dateCreated, lessonType, studentEmail, lessonImage, lessonDetail) {
+  editLesson(id, dateCreated, lessonType, studentUsername, lessonImage, lessonDetail, teacherUsername) {
     return FirebaseFirestore.instance.collection('LessonDetail').doc(id).set({
-      'teacherEmail' : authService.getCurrentUser()!.email ,
+      'teacherUsername' : teacherUsername,
       'lessonType': lessonType,
       'LessonDetail': lessonDetail,
       'lessonImage': lessonImage,
       'dateCreated': dateCreated,
-      'studentEmail': studentEmail,
+      'studentUsername': studentUsername,
     });
   }
 
 
 
-  Stream<List<HomeworkDetail>> getHomeworkDetail() {
+  Stream<List<HomeworkDetail>> getTeacherHomeworkDetail(teacherUsername) {
     return FirebaseFirestore.instance.collection('HomeworkDetail')
-    .where('teacherEmail', isEqualTo: authService.getCurrentUser()!.email).
+    .where('teacherUsername', isEqualTo: teacherUsername).
     snapshots().map(
         (snapshot) => snapshot.docs
             .map<HomeworkDetail>((doc) => HomeworkDetail.fromMap(doc.data(), doc.id))
             .toList());
   }
 
-  addHomeworkScreen(homeworkDetail, studentEmail, datePicked) {
+  Stream<List<HomeworkDetail>> getStudentHomeworkDetail(StudentUsername) {
+    return FirebaseFirestore.instance.collection('HomeworkDetail')
+    .where('studentUsername', isEqualTo: StudentUsername).
+    snapshots().map(
+        (snapshot) => snapshot.docs
+            .map<HomeworkDetail>((doc) => HomeworkDetail.fromMap(doc.data(), doc.id))
+            .toList());
+  }
+
+  addHomeworkScreen(homeworkDetail, studentUsername, datePicked, teacherUsername) {
     return FirebaseFirestore.instance.collection('HomeworkDetail').add({
-      'teacherEmail' : authService.getCurrentUser()!.email ,
+      'teacherUsername' : teacherUsername,
       'HomeworkDetail': homeworkDetail,
       'dueDate': datePicked,
-      'studentEmail': studentEmail,
+      'studentUsername': studentUsername,
       'isDone' : false
     });
   }
@@ -75,11 +92,11 @@ class FirestoreService {
       'isDone' : !isDone,
   });
   }
-  editHomework(id, homeworkDetail, studentEmail, datePicked) {
+  editHomework(id, homeworkDetail, studentUsername, datePicked) {
     return FirebaseFirestore.instance.collection('HomeworkDetail').doc(id).update({
       'HomeworkDetail': homeworkDetail,
       'dueDate': datePicked,
-      'studentEmail': studentEmail,
+      'studentUsername': studentUsername,
     });
   }
 

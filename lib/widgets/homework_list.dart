@@ -1,10 +1,13 @@
 import 'package:chat_application/models/homework_detail.dart';
+import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/edit_homework_detail_screen.dart';
 import 'package:chat_application/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_application/widgets/notification_api.dart';
 
 class HomeworkList extends StatefulWidget {
+  UserModel user;
+  HomeworkList(this.user);
 
   @override
   State<HomeworkList> createState() => _HomeworkListState();
@@ -70,7 +73,7 @@ class _HomeworkListState extends State<HomeworkList> {
   Widget build(BuildContext context) {
     
     return StreamBuilder<List<HomeworkDetail>>(
-        stream: fsService.getHomeworkDetail(),
+        stream: widget.user.role == 'teacher'? fsService.getTeacherHomeworkDetail(widget.user.username) : fsService.getStudentHomeworkDetail(widget.user.username),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
@@ -78,15 +81,15 @@ class _HomeworkListState extends State<HomeworkList> {
             return ListView.separated(
                 itemBuilder: (ctx, i) {
                   return ListTile(
-                    onTap: () => Navigator.push(
+                    onTap: widget.user.role == 'teacher'? () => Navigator.push(
                       context, new MaterialPageRoute(
                         builder: (context) => new EditHomeworkDetailScreen(),
                         settings: RouteSettings(
                           arguments: snapshot.data![i]
                         )
                       )
-                    ),
-                    onLongPress: () => removeItem(snapshot.data![i].id),
+                    ) : null,
+                    onLongPress: widget.user.role == 'teacher'? () => removeItem(snapshot.data![i].id) : null,
                     title: Text(
                       snapshot.data![i].homeworkDetail,
                       style: TextStyle(
@@ -96,7 +99,7 @@ class _HomeworkListState extends State<HomeworkList> {
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 13),
-                      child: Text("To :" + snapshot.data![i].studentEmail),
+                      child: Text("To :" + snapshot.data![i].studentUsername),
                     ),
                     trailing: Container(
                       width: 80.0,

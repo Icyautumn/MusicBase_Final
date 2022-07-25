@@ -20,9 +20,9 @@ class _NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      LessonDetailListScreen(),
+      LessonDetailListScreen(widget.user),
       HomeScreen(widget.user),
-      HomeworkDetailListScreen(),
+      HomeworkDetailListScreen(widget.user),
       Metronome(),
       SettingScreen(),
       

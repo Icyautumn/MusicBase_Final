@@ -53,6 +53,7 @@ dependencies:
   url_launcher: ^6.0.6
   wakelock: ^0.5.2
   shared_preferences: ^2.0.6
+  toggle_switch: ^2.0.1
   
 
 dev_dependencies:

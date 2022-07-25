@@ -1,4 +1,5 @@
 import 'package:chat_application/models/lesson_detail.dart';
+import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/edit_lesson_detail_screen.dart';
 import 'package:chat_application/services/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +9,17 @@ import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:provider/provider.dart';
 
 class LessonList extends StatefulWidget {
-  const LessonList({ Key? key }) : super(key: key);
+  UserModel user;
+  LessonList(this.user);
 
   @override
   State<LessonList> createState() => _LessonListState();
 }
 
 class _LessonListState extends State<LessonList> {
-   FirestoreService fsService = FirestoreService();
+  FirestoreService fsService = FirestoreService();
 
-   void removeItem(String id) {
+  void removeItem(String id) {
     showDialog<Null>(
         context: context,
         builder: (context) {
@@ -46,7 +48,7 @@ class _LessonListState extends State<LessonList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<LessonDetail>>(
-        stream: fsService.getLessonDetail(),
+        stream: widget.user.role == 'teacher' ? fsService.getTeacherLessonDetail(widget.user.username) : fsService.getStudentLessonDetail(widget.user.username),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
@@ -89,7 +91,9 @@ class _LessonListState extends State<LessonList> {
                               ),
                               SizedBox(width: 1),
                               Text(
-                                "To: " + snapshot.data![i].studentEmail!,
+                                widget.user.role == 'teacher'
+                                    ? "To: " + snapshot.data![i].studentUsername!
+                                    : "By: " + snapshot.data![i].teacherUsername,
                                 style: TextStyle(fontSize: 18),
                               )
                             ],
@@ -106,7 +110,11 @@ class _LessonListState extends State<LessonList> {
                                     width: 1,
                                   ),
                                   Text(
-                                    "To: " + snapshot.data![i].studentEmail!,
+                                    widget.user.role == 'teacher'
+                                        ? "To: " +
+                                            snapshot.data![i].studentUsername!
+                                        : "By: " +
+                                            snapshot.data![i].teacherUsername,
                                     style: TextStyle(fontSize: 18),
                                   )
                                 ],
@@ -129,20 +137,21 @@ class _LessonListState extends State<LessonList> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   // edit lesson details
-                                  TextButton(
-                                      onPressed: () => Navigator.push(
+                                 widget.user.role == 'teacher' ?
+                                  TextButton(onPressed: () => Navigator.push(
                                           context,
                                           new MaterialPageRoute(
                                               builder: (context) =>
-                                                  new EditLessonDetailScreen(),
+                                                  new EditLessonDetailScreen(widget.user),
                                               settings: RouteSettings(
                                                   arguments:
                                                       snapshot.data![i]))),
-                                      child: Text('Edit')),
+                                      child: Text('Edit')): Text(''),
+                                       widget.user.role == 'teacher'?
                                   TextButton(
                                       onPressed: () =>
                                           removeItem(snapshot.data![i].id),
-                                      child: Text('Delete'))
+                                      child: Text('Delete')): Text(''),
                                 ],
                               )
                             ],

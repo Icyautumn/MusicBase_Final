@@ -1,9 +1,12 @@
+import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AddHomeworkDetailScreen extends StatefulWidget {
   static String routeName = '/add-homework';
+  UserModel user;
+  AddHomeworkDetailScreen(this.user);
 
   @override
   State<AddHomeworkDetailScreen> createState() => _AddHomeworkDetailScreenState();
@@ -12,7 +15,7 @@ class AddHomeworkDetailScreen extends StatefulWidget {
 class _AddHomeworkDetailScreenState extends State<AddHomeworkDetailScreen> {
   var form = GlobalKey<FormState>();
   dynamic homeworkDetail;
-  String? studentEmail;
+  String? studentUsername;
   DateTime? datePicked = DateTime.now();
 
 
@@ -24,7 +27,7 @@ class _AddHomeworkDetailScreenState extends State<AddHomeworkDetailScreen> {
 
       FirestoreService fsService = FirestoreService();
 
-      fsService.addHomeworkScreen(homeworkDetail, studentEmail, datePicked);
+      fsService.addHomeworkScreen(homeworkDetail, studentUsername, datePicked, widget.user.username);
     }
 
   // Hide the keyboard
@@ -99,7 +102,7 @@ class _AddHomeworkDetailScreenState extends State<AddHomeworkDetailScreen> {
                 autofocus: true,
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
-                  studentEmail = newText;
+                  studentUsername = newText;
                 },
               ),
               Row(

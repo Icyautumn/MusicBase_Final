@@ -1,5 +1,6 @@
-import 'dart:io';
-
+import 'package:chat_application/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,25 +16,40 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   var form = GlobalKey<FormState>();
   late List<bool> isSelected;
-  String? Username;
+  int student_or_teacher = 0;
+  String? username;
   dynamic checker;
 
-  saveForm(context) async {
+  saveForm(context, student_or_teacher_int) async {
+    var student_or_teacher;
+    // if teacher
+    if(student_or_teacher_int == 1){
+      student_or_teacher = 'teacher';
+    }
+    // if student 
+    else{
+      student_or_teacher = 'student';
+    }
     FirestoreService fsService = FirestoreService();
     bool isValid = form.currentState!.validate();
     if (isValid) {
       form.currentState!.save();
-      checker = await fsService.checkUsernameUnique(Username!);
-      if(checker == true){
-        print("username not taken");
-      } else{
+      checker = await fsService.checkUsernameUnique(username!);
+      if (checker == true) {
+        await firestore.collection('users').doc(widget.user.uid).update({
+        'username' : username,
+        'role': student_or_teacher,
+      });
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyApp()), (route) => false);
+      } else {
         print("username is taken");
       }
     }
-    
   }
+
   @override
   void initState() {
     isSelected = [true, false];
@@ -49,59 +65,53 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
-            ToggleButtons(
-              borderColor: Colors.black,
-              fillColor: Colors.grey,
-              borderWidth: 2,
-              selectedBorderColor: Colors.black,
-              selectedColor: Colors.white,
-              borderRadius: BorderRadius.circular(0),
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Student',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Teacher',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
+            ToggleSwitch(
+              minWidth: 90.0,
+              cornerRadius: 20.0,
+              activeBgColors: [
+                [Colors.green[800]!],
+                [Colors.red[800]!]
               ],
-              onPressed: (int index) {
-                setState(() {
-                  for (int i = 0; i < isSelected.length; i++) {
-                    isSelected[i] = i == index;
-                  }
-                  print(isSelected);
-                });
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              initialLabelIndex: student_or_teacher,
+              totalSwitches: 2,
+              labels: ['Student', 'Teacher'],
+              radiusStyle: true,
+              onToggle: (index) {
+                // if 0 equals to student
+                // if 1 equals to teacher
+                student_or_teacher = index!;
               },
-              isSelected: isSelected,
             ),
             Form(
               key: form,
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: TextFormField(
-                  decoration: InputDecoration(label: Text("Username"), suffixIcon: IconButton(
-                  onPressed: () => {saveForm(context)},
-                  icon: Icon(Icons.check_circle_outline),splashColor: Colors.green)),
-                  // check if inputted student username
-                  validator: (value) {
-                    if (value == null || value.length == 0) {
-                      return "please provide a username";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (value) {
-                    Username = value;
-                  },
-                ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        label: Text("username"),
+                      ),
+                      // check if inputted student username
+                      validator: (value) {
+                        if (value == null || value.length == 0) {
+                          return "please provide a username";
+                        } else {
+                          return null;
+                        }
+                      },
+                      onSaved: (value) {
+                        username = value;
+                      },
+                    ),
+                  ),
+                  FlatButton(
+                      onPressed: () =>saveForm(context, student_or_teacher),
+                      child: Text('Register'))
+                ],
               ),
             ),
           ],

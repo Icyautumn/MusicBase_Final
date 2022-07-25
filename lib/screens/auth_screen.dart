@@ -32,12 +32,13 @@ class _AuthScreenState extends State<AuthScreen> {
     if (userExist.exists) {
       print("User Already Exists in Database");
     } else {
+
       await firestore.collection('users').doc(userCredential.user!.uid).set({
         'email': userCredential.user!.email,
         'name': userCredential.user!.displayName,
         'image': userCredential.user!.photoURL,
-        'username' : null,
-        'role': null,
+        'username' : 'null',
+        'role': 'null',
         'uid': userCredential.user!.uid,
         'date': DateTime.now(),
       });

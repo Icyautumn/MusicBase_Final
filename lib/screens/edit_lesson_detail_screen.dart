@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chat_application/models/lesson_detail.dart';
+import 'package:chat_application/models/user_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:chat_application/services/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 
 class EditLessonDetailScreen extends StatefulWidget {
   static String routeName = '/edit-lesson';
+  UserModel user;
+  EditLessonDetailScreen(this.user);
 
   @override
   State<EditLessonDetailScreen> createState() => _EditLessonDetailScreenState();
@@ -21,7 +24,7 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
   String? lessonDetail;
   DateTime? dateCreated;
 
-  String? studentEmail;
+  String? studentUsername;
   String? lessonImages;
   File? lessonImageTemp;
 
@@ -49,14 +52,14 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
               (task) => task.ref.getDownloadURL().then(
                 (lessonImage) {
                   fsService.editLesson(id, dateCreated, lessonType,
-                      studentEmail, lessonImage, lessonDetail);
+                      studentUsername, lessonImage, lessonDetail, widget.user.username);
                   Navigator.of(context).pop();
                 },
               ),
             );
       } else {
-        fsService.editLesson(id, dateCreated, lessonType, studentEmail,
-            imageNotChanged, lessonDetail);
+        fsService.editLesson(id, dateCreated, lessonType, studentUsername,
+            imageNotChanged, lessonDetail, widget.user.username);
       }
 
       // Hide the keyboard
@@ -169,8 +172,8 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
                 },
               ),
               TextFormField(
-                initialValue: selectedLessonDetail.studentEmail,
-                decoration: InputDecoration(label: Text('StudentEmail')),
+                initialValue: selectedLessonDetail.studentUsername,
+                decoration: InputDecoration(label: Text('studentUsername')),
                 validator: (value) {
                   if (value == null)
                     return 'Please provide a purpose.';
@@ -178,7 +181,7 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
                     return null;
                 },
                 onSaved: (value) {
-                  studentEmail = value;
+                  studentUsername = value;
                 },
               ),
               Row(
