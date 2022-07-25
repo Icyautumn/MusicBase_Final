@@ -36,6 +36,8 @@ class _AuthScreenState extends State<AuthScreen> {
         'email': userCredential.user!.email,
         'name': userCredential.user!.displayName,
         'image': userCredential.user!.photoURL,
+        'username' : null,
+        'role': null,
         'uid': userCredential.user!.uid,
         'date': DateTime.now(),
       });

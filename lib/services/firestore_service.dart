@@ -3,6 +3,7 @@ import 'package:chat_application/models/homework_detail.dart';
 import 'package:chat_application/models/lesson_detail.dart';
 import 'package:chat_application/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreService {
   AuthService authService = AuthService();
@@ -80,5 +81,15 @@ class FirestoreService {
       'dueDate': datePicked,
       'studentEmail': studentEmail,
     });
+  }
+
+  Future<bool> checkUsernameUnique(String username) async {
+    final result = await FirebaseFirestore.instance.collection('users').where('username', isEqualTo: username).get();
+     if(result.docs.isEmpty == true){
+      return true;
+     } else{
+      return false;
+     }
+    
   }
 }
