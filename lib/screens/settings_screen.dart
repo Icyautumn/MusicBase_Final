@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_application/main.dart';
 import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/auth_screen.dart';
 import 'package:chat_application/screens/in_app_browser.dart';
@@ -20,58 +22,43 @@ class SettingScreenState extends State<SettingScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var form = GlobalKey<FormState>();
   String? newUsername;
-  dynamic checker;
-
+  dynamic checker = false;
 
   saveForm(context, student_or_teacher_int) async {
     var student_or_teacher;
     // if teacher
-    if(student_or_teacher_int == 1){
+    if (student_or_teacher_int == 1) {
       student_or_teacher = 'teacher';
     }
-    // if student 
-    else{
+    // if student
+    else {
       student_or_teacher = 'student';
     }
     FirestoreService fsService = FirestoreService();
     bool isValid = form.currentState!.validate();
     if (isValid) {
       form.currentState!.save();
-      if(newUsername != widget.user.username){
-        checker = await fsService.checkUsernameUnique(newUsername!);
-      }  
-      
-      if (checker == true) {
         await firestore.collection('users').doc(widget.user.uid).update({
-        'username' : newUsername,
-        'role': student_or_teacher,
-      });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Profile username and role changed successfully'),
-    ));
-      } else {
-        showDialog(
-          context: context, 
-          builder: (context) {
-            // let user know to input image
-            return AlertDialog(
-              title: Text('Username Taken'),
-              content: Text("Please input another username"),
-              actions: [
-                TextButton(onPressed: (){Navigator.of(context).pop();}, child: Text('ok'))
-              ],
-            );
+          'role': student_or_teacher,
         });
-      }
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Role changed successfully'),
+        ));
+        
+        Navigator.pushAndRemoveUntil(
+  			context,
+  			MaterialPageRoute(builder: (context) => MyApp()), // this mymainpage is your page to refresh
+  			(Route<dynamic> route) => false,
+		);
     }
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
-    int student_or_teacher =  widget.user.role == 'teacher' ? 1 : 0 ;
+    int student_or_teacher = widget.user.role == 'teacher' ? 1 : 0;
     return Scaffold(
-       appBar: AppBar(
+        appBar: AppBar(
           title: Text("Setting Screen"),
           centerTitle: true,
           backgroundColor: Colors.teal,
@@ -88,12 +75,65 @@ class SettingScreenState extends State<SettingScreen> {
                 icon: Icon(Icons.logout))
           ],
         ),
-      body: Container(
-          child: Column(
-            
-            children: [
-              SizedBox(height: 20,),
-              ToggleSwitch(
+        body: Container(
+            child: Column(
+          children: [
+            Center(
+              child: Stack(
+                children: [
+                  Container(
+                    width: 130,
+                    height: 130,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 4,
+                            color: Theme.of(context).scaffoldBackgroundColor),
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: Offset(0, 10))
+                        ],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(widget.user.image))),
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 4,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          color: Colors.green,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => InAppBrowser())));
+                          },
+                        ),
+                      )),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ToggleSwitch(
               minWidth: 90.0,
               cornerRadius: 20.0,
               activeBgColors: [
@@ -120,6 +160,7 @@ class SettingScreenState extends State<SettingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: TextFormField(
+                      enabled: false,
                       initialValue: widget.user.username,
                       decoration: InputDecoration(
                         label: Text("username"),
@@ -138,20 +179,12 @@ class SettingScreenState extends State<SettingScreen> {
                     ),
                   ),
                   FlatButton(
-                      onPressed: () =>saveForm(context, student_or_teacher),
+                      onPressed: () => saveForm(context, student_or_teacher),
                       child: Text('Save'))
                 ],
               ),
             ),
-              TextButton(
-        onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => InAppBrowser())));
-        },
-        child: Center(child: Text("Google Profile settings")),
-      ),
-            ],
-          )),
-    );
+          ],
+        )));
   }
 }
