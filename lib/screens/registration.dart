@@ -45,7 +45,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyApp()), (route) => false);
       } else {
-        print("username is taken");
+        showDialog(
+          context: context, 
+          builder: (context) {
+            // let user know to input image
+            return AlertDialog(
+              title: Text('Username Taken'),
+              content: Text("Please input another username"),
+              actions: [
+                TextButton(onPressed: (){Navigator.of(context).pop();}, child: Text('ok'))
+              ],
+            );
+        });
       }
     }
   }

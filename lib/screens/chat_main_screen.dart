@@ -8,20 +8,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class HomeScreen extends StatefulWidget {
+class ChatMainScreen extends StatefulWidget {
   UserModel user;
-  HomeScreen(this.user);
+  ChatMainScreen(this.user);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ChatMainScreen> createState() => _ChatMainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ChatMainScreenState extends State<ChatMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text("Chat Screen"),
           centerTitle: true,
           backgroundColor: Colors.teal,
           actions: [
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 50,
                                 ),
                               ),
-                              title: Text(friend['name']),
+                              title: Text(friend['username']),
                               subtitle: Container(
                                 child: Text(
                                   "$lastMsg",
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         builder: (context) => ChatScreen(
                                               currentUser: widget.user,
                                               friendId: friend["uid"],
-                                              friendName: friend["name"],
+                                              friendUsername: friend["username"],
                                               friendImage: friend["image"],
                                             )));
                               },

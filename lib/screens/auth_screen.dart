@@ -60,10 +60,6 @@ class _AuthScreenState extends State<AuthScreen> {
                         "assets/musicBase_logo.png"))),
           ),
         ),
-        Text(
-          "Flutter Chat App",
-          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: ElevatedButton(

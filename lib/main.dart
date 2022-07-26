@@ -4,7 +4,7 @@ import 'package:chat_application/screens/add_lesson_detail_screen.dart';
 import 'package:chat_application/screens/auth_screen.dart';
 import 'package:chat_application/screens/edit_homework_detail_screen.dart';
 import 'package:chat_application/screens/edit_lesson_detail_screen.dart';
-import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/screens/chat_main_screen.dart';
 import 'package:chat_application/screens/metronome.dart';
 import 'package:chat_application/screens/navigation.dart';
 import 'package:chat_application/screens/registration.dart';

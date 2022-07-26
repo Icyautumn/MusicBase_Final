@@ -1,5 +1,5 @@
 import 'package:chat_application/models/user_model.dart';
-import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/screens/chat_main_screen.dart';
 import 'package:chat_application/screens/homework_detail_screen.dart';
 import 'package:chat_application/screens/lesson_detail_list.screen.dart';
 import 'package:chat_application/screens/metronome.dart';
@@ -21,7 +21,7 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     final pages = [
       LessonDetailListScreen(widget.user),
-      HomeScreen(widget.user),
+      ChatMainScreen(widget.user),
       HomeworkDetailListScreen(widget.user),
       Metronome(),
       SettingScreen(),

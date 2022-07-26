@@ -103,19 +103,28 @@ class _MetronomeState extends State<Metronome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Metronome',
-            style: Theme.of(context).textTheme.headline3,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          centerTitle: true,
+          title: Text(
+            "Metronome",
+            style: TextStyle(color: Colors.black),
           ),
-          SliderRow(_bpm, _setBpmHanlder, _isRunning, _toggleIsRunning,
-              _animationController),
-          Indicator(_nowStep),
-        ],
-      ),
-    ));
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              SliderRow(_bpm, _setBpmHanlder, _isRunning, _toggleIsRunning,
+                  _animationController),
+              Indicator(_nowStep),
+            ],
+          ),
+        ));
   }
 }

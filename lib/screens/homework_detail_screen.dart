@@ -26,8 +26,15 @@ class _HomeworkDetailListScreenState extends State<HomeworkDetailListScreen> {
         Center(child: CircularProgressIndicator()) :
         Scaffold(
           appBar: AppBar(
-            title: Text('My Homework Detail'),
-          ),
+                    iconTheme: IconThemeData(color: Colors.black),
+                    centerTitle: true,
+                    title: Text(
+                      widget.user.role,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0.0,
+                  ),
           body: Container(
               alignment: Alignment.center,
               child: snapshot.data!.length> 0

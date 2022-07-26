@@ -21,7 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
       searchResult = [];
       isLoading = true;
     });
-    await FirebaseFirestore.instance.collection('users').where("name",isEqualTo: searchController.text).get().then((value){
+    await FirebaseFirestore.instance.collection('users').where("username",isEqualTo: searchController.text).get().then((value){
        if(value.docs.length < 1){
          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No User Found")));
             setState(() {
@@ -78,7 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     leading: CircleAvatar(
                       child: Image.network(searchResult[index]['image']),
                     ),
-                    title: Text(searchResult[index]['name']),
+                    title: Text(searchResult[index]['username']),
                     subtitle: Text(searchResult[index]['email']),
                     trailing: IconButton(onPressed: (){
                         setState(() {
@@ -87,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                            Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatScreen(
                              currentUser: widget.user, 
                              friendId: searchResult[index]['uid'],
-                              friendName: searchResult[index]['name'],
+                              friendUsername: searchResult[index]['username'],
                                friendImage: searchResult[index]['image'])));
                     }, icon: Icon(Icons.message)),
                   );

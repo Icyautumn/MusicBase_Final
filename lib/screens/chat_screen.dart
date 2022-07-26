@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 class ChatScreen extends StatelessWidget {
   final UserModel currentUser;
   final String friendId;
-  final String friendName;
+  final String friendUsername;
   final String friendImage;
 
   ChatScreen({
     required this.currentUser,
     required this.friendId,
-    required this.friendName,
+    required this.friendUsername,
     required this.friendImage,
   });
 
@@ -40,7 +40,7 @@ class ChatScreen extends StatelessWidget {
               width: 5,
             ),
             Text(
-              friendName,
+              friendUsername,
               style: TextStyle(fontSize: 20),
             )
           ],
