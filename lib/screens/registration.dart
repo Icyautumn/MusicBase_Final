@@ -65,6 +65,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
+            Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                        "assets/musicBase_logo.png"))),
+          ),
+        ),
             ToggleSwitch(
               minWidth: 90.0,
               cornerRadius: 20.0,

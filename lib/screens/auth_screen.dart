@@ -56,8 +56,8 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(
-                        "https://cdn.iconscout.com/icon/free/png-256/chat-2639493-2187526.png"))),
+                    image: AssetImage(
+                        "assets/musicBase_logo.png"))),
           ),
         ),
         Text(
