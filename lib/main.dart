@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +27,25 @@ class MyApp extends StatelessWidget {
   Future<Widget> userSignedIn() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      return AuthScreen();
+      return AnimatedSplashScreen(
+        splash: Column(
+          children: [
+            Image.asset('assets/musicBase_logo.png'),
+            const Text('MusicBase',
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white))
+          ],
+        ),
+        backgroundColor: Colors.white,
+        nextScreen: AuthScreen(),
+        splashIconSize: 250,
+        duration: 4000,
+        splashTransition: SplashTransition.slideTransition,
+      );
     } else {
-       DocumentSnapshot userData = await FirebaseFirestore.instance
+      DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
@@ -36,7 +53,24 @@ class MyApp extends StatelessWidget {
       if (userModel.role == "null") {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: RegistrationScreen(userModel),
+          home: AnimatedSplashScreen(
+           splash: Column(
+          children: [
+            Image.asset('assets/musicBase_logo.png'),
+            const Text('MusicBase',
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white))
+          ],
+        ),
+        backgroundColor: Colors.white,
+        nextScreen: RegistrationScreen(userModel),
+        splashIconSize: 250,
+        duration: 4000,
+        splashTransition: SplashTransition.slideTransition,
+        
+      ),
           routes: {
             EditLessonDetailScreen.routeName: (_) {
               return EditLessonDetailScreen(userModel);
@@ -51,11 +85,29 @@ class MyApp extends StatelessWidget {
               return EditHomeworkDetailScreen();
             }
           },
+          
         );
       } else {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Navigation(userModel),
+          home: AnimatedSplashScreen(
+           splash: Column(
+          children: [
+            Image.asset('assets/musicBase_logo.png'),
+            const Text('MusicBase',
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white))
+          ],
+        ),
+        backgroundColor: Colors.white,
+        nextScreen: Navigation(userModel),
+        splashIconSize: 250,
+        duration: 4000,
+        splashTransition: SplashTransition.slideTransition,
+        
+      ),
           routes: {
             EditLessonDetailScreen.routeName: (_) {
               return EditLessonDetailScreen(userModel);
@@ -70,6 +122,7 @@ class MyApp extends StatelessWidget {
               return EditHomeworkDetailScreen();
             }
           },
+          
         );
       }
     }
