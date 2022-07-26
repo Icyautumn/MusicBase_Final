@@ -2,7 +2,7 @@
     package="com.example.chat_application">
    <application
         android:usesCleartextTraffic="true"
-        android:label="chat_application"
+        android:label="MusicBase"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
