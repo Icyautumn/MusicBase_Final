@@ -80,29 +80,29 @@ class _AddHomeworkDetailScreenState extends State<AddHomeworkDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextField(
+                  TextFormField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "enter Homework"),
                     autofocus: true,
                     textAlign: TextAlign.center,
-                    onChanged: (newText) {
-                      if (newText == null) {
+                    validator: (newText) {
+                      if (newText == null || newText.length == 0) {
                         return;
                       } else {
                         homeworkDetail = newText;
                       }
                     },
                   ),
-                  TextField(
+                  TextFormField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "enter student Username"),
                     autofocus: true,
                     textAlign: TextAlign.center,
-                    onChanged: (newText) {
-                      if (newText == null) {
-                        return;
+                    validator: (newText) {
+                      if (newText == null || newText.length == 0) {
+                        return "please enter student name";
                       } else {
                         studentUsername = newText;
                       }

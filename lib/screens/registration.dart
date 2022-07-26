@@ -18,7 +18,6 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var form = GlobalKey<FormState>();
-  late List<bool> isSelected;
   int student_or_teacher = 0;
   String? username;
   dynamic checker;
@@ -59,12 +58,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         });
       }
     }
-  }
-
-  @override
-  void initState() {
-    isSelected = [true, false];
-    super.initState();
   }
 
   @override

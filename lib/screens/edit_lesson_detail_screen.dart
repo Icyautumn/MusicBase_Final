@@ -162,7 +162,7 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
                 initialValue: selectedLessonDetail.lessonDetail,
                 decoration: InputDecoration(label: Text('lesson Details')),
                 validator: (value) {
-                  if (value == null)
+                  if (value == null || value.length == 0)
                     return "Please provide lesson Details.";
                   else
                     return null;
@@ -175,7 +175,7 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
                 initialValue: selectedLessonDetail.studentUsername,
                 decoration: InputDecoration(label: Text('studentUsername')),
                 validator: (value) {
-                  if (value == null)
+                  if (value == null || value.length == 0)
                     return 'Please provide a purpose.';
                   else
                     return null;

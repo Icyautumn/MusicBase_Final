@@ -119,7 +119,7 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Expense'),
+        title: Text('Add Lesson Details'),
         actions: [
           IconButton(
               onPressed: () => saveForm(context, dateCreated), icon: Icon(Icons.save))
@@ -154,7 +154,7 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
               TextFormField(
                 decoration: InputDecoration(label: Text('Lesson Details')),
                 validator: (value) {
-                  if (value == null)
+                  if (value == null  || value.length == 0)
                     return "Please provide lesson Details.";
                   else
                     return null;
@@ -166,7 +166,7 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
               TextFormField(
                 decoration: InputDecoration(label: Text('studentUsername')),
                 validator: (value) {
-                  if (value == null)
+                  if (value == null || value.length == 0)
                     return 'Please provide student Username';
                   else
                     return null;

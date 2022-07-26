@@ -24,7 +24,7 @@ class _NavigationState extends State<Navigation> {
       ChatMainScreen(widget.user),
       HomeworkDetailListScreen(widget.user),
       Metronome(),
-      SettingScreen(),
+      SettingScreen(widget.user),
       
     ];
     return Scaffold(
