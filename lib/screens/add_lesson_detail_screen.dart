@@ -20,18 +20,17 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
   var form = GlobalKey<FormState>();
   String? lessonType;
   String? lessonDetail;
-  DateTime? dateCreated;
+  DateTime? dateCreated = DateTime.now();
 
   String? studentUsername;
   File? lessonPhoto;
 
-  void saveForm(context, datechosen) {
+  void saveForm(context) async{
     bool isValid = form.currentState!.validate();
-    if (dateCreated == null) dateCreated = DateTime.now();
-
-    
-
-    if (isValid) {
+    if (dateCreated == null) {
+      dateCreated = DateTime.now();
+    }
+    if (isValid)  {
       form.currentState!.save();
       //using firestore services
       FirestoreService fsService = FirestoreService();
@@ -49,19 +48,31 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
             );
         });
 
-      }else{
-      FirebaseStorage.instance
-          .ref()
-          .child(DateTime.now().toString() + '_' + basename(lessonPhoto!.path))
-          .putFile(lessonPhoto!)
-          .then(
-            (task) => task.ref.getDownloadURL().then(
-              (lessonImage) {
-                print(dateCreated);
-                fsService.addLessonScreen(lessonType, lessonDetail, lessonImage, datechosen, studentUsername, widget.user.username);
-              },
-            ),
-          );
+      }else {
+        String? base64;
+      // FirebaseStorage.instance
+      //     .ref()
+      //     .child(DateTime.now().toString() + '_' + basename(lessonPhoto!.path))
+      //     .putFile(lessonPhoto!)
+      //     .then(
+      //       (task) => task.ref.getDownloadURL().then(
+      //         (lessonImage) {
+      //           // fsService.addLessonScreen(lessonType, lessonDetail, lessonImage, dateCreated, studentUsername, widget.user.username);
+      //         base64 = lessonImage;
+      //         },
+      //       ),
+      //     );
+
+      Reference ref =
+            FirebaseStorage.instance.ref().child(DateTime.now().toString() + '_' + basename(lessonPhoto!.path));
+        UploadTask uploadTask = ref.putFile(lessonPhoto!);
+
+        var imageUrl = await (await uploadTask).ref.getDownloadURL();
+        setState(() {
+          base64 = imageUrl.toString();
+        });
+
+        fsService.addLessonScreen(lessonType, lessonDetail, base64, dateCreated, studentUsername, widget.user.username);
       
       
 
@@ -122,7 +133,7 @@ class _AddLessonDetailScreenState extends State<AddLessonDetailScreen> {
         title: Text('Add Lesson Details'),
         actions: [
           IconButton(
-              onPressed: () => saveForm(context, dateCreated), icon: Icon(Icons.save))
+              onPressed: () => saveForm(context), icon: Icon(Icons.save))
         ],
       ),
       body: Container(

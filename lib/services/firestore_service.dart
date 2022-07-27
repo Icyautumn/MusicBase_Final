@@ -21,7 +21,7 @@ class FirestoreService {
 
 
   Stream<List<LessonDetail>> getTeacherLessonDetail(teacherUsername) {
-    return FirebaseFirestore.instance.collection('LessonDetail')
+    return FirebaseFirestore.instance.collection('LessonDetail').orderBy("dateCreated", descending: true)
     .where('teacherUsername', isEqualTo: teacherUsername).
     snapshots().map(
         (snapshot) => snapshot.docs
@@ -30,7 +30,7 @@ class FirestoreService {
   }
 
   Stream<List<LessonDetail>> getStudentLessonDetail(studentUsername) {
-    return FirebaseFirestore.instance.collection('LessonDetail')
+    return FirebaseFirestore.instance.collection('LessonDetail').orderBy("dateCreated", descending: true)
     .where('studentUsername', isEqualTo: studentUsername).
     snapshots().map(
         (snapshot) => snapshot.docs
@@ -57,7 +57,7 @@ class FirestoreService {
 
   Stream<List<HomeworkDetail>> getTeacherHomeworkDetail(teacherUsername) {
     return FirebaseFirestore.instance.collection('HomeworkDetail')
-    .where('teacherUsername', isEqualTo: teacherUsername).
+    .where('teacherUsername', isEqualTo: teacherUsername).orderBy('dueDate').
     snapshots().map(
         (snapshot) => snapshot.docs
             .map<HomeworkDetail>((doc) => HomeworkDetail.fromMap(doc.data(), doc.id))
@@ -66,7 +66,7 @@ class FirestoreService {
 
   Stream<List<HomeworkDetail>> getStudentHomeworkDetail(StudentUsername) {
     return FirebaseFirestore.instance.collection('HomeworkDetail')
-    .where('studentUsername', isEqualTo: StudentUsername).
+    .where('studentUsername', isEqualTo: StudentUsername).orderBy('dueDate'). 
     snapshots().map(
         (snapshot) => snapshot.docs
             .map<HomeworkDetail>((doc) => HomeworkDetail.fromMap(doc.data(), doc.id))

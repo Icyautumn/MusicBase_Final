@@ -29,20 +29,19 @@ class _AddHomeworkDetailScreenState extends State<AddHomeworkDetailScreen> {
 
       fsService.addHomeworkScreen(
           homeworkDetail, studentUsername, datePicked, widget.user.username);
+      // Hide the keyboard
+      FocusScope.of(context).unfocus();
+
+      // Resets the form
+      form.currentState!.reset();
+      datePicked = null;
+
+      // Shows a SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Homework added successfully!'),
+      ));
+      Navigator.of(context).pop();
     }
-
-    // Hide the keyboard
-    FocusScope.of(context).unfocus();
-
-    // Resets the form
-    form.currentState!.reset();
-    datePicked = null;
-
-    // Shows a SnackBar
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Homework added successfully!'),
-    ));
-    Navigator.of(context).pop();
   }
 
   void presentDatePick(BuildContext context) {

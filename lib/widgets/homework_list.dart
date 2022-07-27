@@ -49,15 +49,15 @@ class _HomeworkListState extends State<HomeworkList> {
     });
   }
 
-  in2Days(DateTime date, id, homework){
+  in2Days(DateTime date, id, homework, isDone){
     var inDays2 = date.difference(DateTime.now()).inDays;
-    if (inDays2 <= 2){
+    if (inDays2 <= 2 && isDone == false){
       NotificationApi.showNotification(
         title: 'Homework',
-        body: ('your homework is due in :' + inDays2.toString()),
+        body: (homework +  " Due in :" +  inDays2.toString() +  " Days"),
         payload: homework
       );
-      if( inDays2 <= -4){
+      if( inDays2 <= -2){
         fsService.removeHomework(id);
       }
       return inDays2;
@@ -115,9 +115,9 @@ class _HomeworkListState extends State<HomeworkList> {
                                 onChanged: (checkboxState) => changeToDone(
                                     snapshot.data![i].id,
                                     snapshot.data![i].isDone)),
-                            Text("Due in :" + in2Days(snapshot.data![i].dueDate, snapshot.data![i].id, snapshot.data![i].homeworkDetail).toString() + " days, ",
+                            Text("Due in :" + in2Days(snapshot.data![i].dueDate, snapshot.data![i].id, snapshot.data![i].homeworkDetail, snapshot.data![i].isDone).toString() + " days, ",
                                 style: TextStyle(
-                                    color: in2Days(snapshot.data![i].dueDate, snapshot.data![i].id, snapshot.data![i].homeworkDetail) <= 2
+                                    color: in2Days(snapshot.data![i].dueDate, snapshot.data![i].id, snapshot.data![i].homeworkDetail, snapshot.data![i].isDone) <= 2
                                         ? Colors.red
                                         : Colors.black))
                           ],
