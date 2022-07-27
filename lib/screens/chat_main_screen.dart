@@ -24,18 +24,6 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
           title: Text("Chat Screen"),
           centerTitle: true,
           backgroundColor: Colors.teal,
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  await GoogleSignIn().signOut();
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => AuthScreen()),
-                      (route) => false);
-                },
-                icon: Icon(Icons.logout))
-          ],
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -66,14 +54,8 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
                             return ListTile(
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(80),
-                                child: CachedNetworkImage(
-                                  imageUrl: friend['image'],
-                                  placeholder: (conteext, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) => Icon(
-                                    Icons.error,
-                                  ),
-                                  height: 50,
+                                child: CircleAvatar(
+                                  child: Image.network(friend['image']),
                                 ),
                               ),
                               title: Text(friend['username']),
@@ -91,7 +73,8 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
                                         builder: (context) => ChatScreen(
                                               currentUser: widget.user,
                                               friendId: friend["uid"],
-                                              friendUsername: friend["username"],
+                                              friendUsername:
+                                                  friend["username"],
                                               friendImage: friend["image"],
                                             )));
                               },

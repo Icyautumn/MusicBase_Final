@@ -27,13 +27,8 @@ class ChatScreen extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(80),
-              child: CachedNetworkImage(
-                imageUrl: friendImage,
-                placeholder: (conteext, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(
-                  Icons.error,
-                ),
-                height: 50,
+              child: CircleAvatar(
+                child: Image.network(friendImage),
               ),
             ),
             SizedBox(
