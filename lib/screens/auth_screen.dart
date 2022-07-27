@@ -30,7 +30,11 @@ class _AuthScreenState extends State<AuthScreen> {
         await firestore.collection('users').doc(userCredential.user!.uid).get();
 
     if (userExist.exists) {
-      print("User Already Exists in Database");
+      await firestore.collection('users').doc(userCredential.user!.uid).update({
+        'image': userCredential.user!.photoURL
+      });
+      print(userCredential.user!.photoURL);
+      print('user exist');
     } else {
 
       await firestore.collection('users').doc(userCredential.user!.uid).set({

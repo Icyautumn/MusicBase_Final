@@ -95,7 +95,7 @@ class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
                     hintText: "enter Homework"),
                 autofocus: true,
                 textAlign: TextAlign.center,
-                onChanged: (newText) {
+                onSaved: (newText) {
                   homeworkDetail = newText;
                 },
               ), 
@@ -106,7 +106,7 @@ class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
                     hintText: "enter student Username"),
                 autofocus: true,
                 textAlign: TextAlign.center,
-                onChanged: (newText) {
+                onSaved: (newText) {
                   studentUsername = newText;
                 },
               ),
