@@ -20,13 +20,13 @@ class UserModel {
 
   factory UserModel.fromJson(DocumentSnapshot snapshot) {
     return UserModel(
-      email: snapshot['email'],
-      name: snapshot['name'],
-      image: snapshot['image'],
-      date: snapshot['date'],
-      uid: snapshot['uid'],
-      username: snapshot['username'],
-      role: snapshot['role'],
+      email: snapshot['email'] ?? '',
+      name: snapshot['name']?? '',
+      image: snapshot['image']?? '',
+      date: snapshot['date']?? '',
+      uid: snapshot['uid']?? '',
+      username: snapshot['username']?? '',
+      role: snapshot['role']?? '',
     );
   }
 }

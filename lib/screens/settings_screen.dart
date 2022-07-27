@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_application/main.dart';
 import 'package:chat_application/models/user_model.dart';
@@ -6,8 +8,10 @@ import 'package:chat_application/screens/in_app_browser.dart';
 import 'package:chat_application/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -23,6 +27,8 @@ class SettingScreenState extends State<SettingScreen> {
   var form = GlobalKey<FormState>();
   String? newUsername;
   dynamic checker = false;
+  File? profileTempImage;
+  
 
   saveForm(context, student_or_teacher_int) async {
     var student_or_teacher;
@@ -38,9 +44,28 @@ class SettingScreenState extends State<SettingScreen> {
     bool isValid = form.currentState!.validate();
     if (isValid) {
       form.currentState!.save();
+      if(profileTempImage == null){
+        
         await firestore.collection('users').doc(widget.user.uid).update({
           'role': student_or_teacher,
         });
+      }else{
+        String? base64;
+      Reference ref =
+            FirebaseStorage.instance.ref().child(DateTime.now().toString() + '_' + basename(profileTempImage!.path));
+        UploadTask uploadTask = ref.putFile(profileTempImage!);
+
+        var imageUrl = await (await uploadTask).ref.getDownloadURL();
+        setState(() {
+          base64 = imageUrl.toString();
+        });
+        await firestore.collection('users').doc(widget.user.uid).update({
+          'role': student_or_teacher,
+          'image' : base64,
+        });
+      }
+      
+      
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Role changed successfully'),
@@ -52,6 +77,24 @@ class SettingScreenState extends State<SettingScreen> {
   			(Route<dynamic> route) => false,
 		);
     }
+  }
+
+  Future<void> pickImage(mode) {
+    ImageSource chosenSource =
+        mode == 0 ? ImageSource.camera : ImageSource.gallery;
+    return ImagePicker()
+        .pickImage(
+            source: chosenSource,
+            maxWidth: 600,
+            imageQuality: 100,
+            maxHeight: 150)
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          profileTempImage = File(value.path);
+        });
+      }
+    });
   }
 
   @override
@@ -98,7 +141,7 @@ class SettingScreenState extends State<SettingScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(widget.user.image))),
+                            image: profileTempImage == null? NetworkImage(widget.user.image): FileImage(profileTempImage!) as ImageProvider)),
                   ),
                   Positioned(
                       bottom: 0,
@@ -120,10 +163,9 @@ class SettingScreenState extends State<SettingScreen> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) => InAppBrowser())));
+                            setState(() {
+                                pickImage(1);
+                              });
                           },
                         ),
                       )),
