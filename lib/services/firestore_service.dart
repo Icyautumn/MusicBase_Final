@@ -109,4 +109,14 @@ class FirestoreService {
      }
     
   }
+
+  Future<bool> checkEmailUnique(String username) async {
+    final result = await FirebaseFirestore.instance.collection('users').where('email', isEqualTo: username).get();
+     if(result.docs.isEmpty == true){
+      return true;
+     } else{
+      return false;
+     }
+    
+  }
 }

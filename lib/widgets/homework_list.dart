@@ -99,7 +99,7 @@ class _HomeworkListState extends State<HomeworkList> {
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 13),
-                      child: Text("To :" + snapshot.data![i].studentUsername),
+                      child: widget.user.role == 'teacher'? Text("To :" + snapshot.data![i].studentUsername) : Text("By :" + snapshot.data![i].teacherUsername),
                     ),
                     trailing: Container(
                       width: 80.0,

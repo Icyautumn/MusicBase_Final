@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.white,
         nextScreen: AuthScreen(),
         splashIconSize: 250,
-        duration: 4000,
+        duration: 2000,
         splashTransition: SplashTransition.slideTransition,
       );
     } else {
