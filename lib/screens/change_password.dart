@@ -26,8 +26,10 @@ class _changePasswordScreenState extends State<changePasswordScreen> {
       form.currentState!.save();
       AuthService authService = AuthService();
 
+      // check if confirm password and new password match
       if (cfmnewPassword == newPassword) {
         try {
+          // update user's password to new password
           await currentUser!.updatePassword(newPassword!);
           FocusScope.of(context).unfocus();
           ScaffoldMessenger.of(context).hideCurrentSnackBar();

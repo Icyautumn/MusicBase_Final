@@ -34,7 +34,7 @@ class _EditLessonDetailScreenState extends State<EditLessonDetailScreen> {
 
     if (isValid) {
       form.currentState!.save();
-
+      // check if user changed date, if not use date set by user previously
       if (dateCreated == null) {
         dateCreated == dateNotChanged;
       }

@@ -22,10 +22,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
+  // This widget is the root of your application
   Future<Widget> userSignedIn() async {
+    // sign in the user
     User? user = FirebaseAuth.instance.currentUser;
+    // check if user is signed in, 
+    // if user not signed in
     if (user == null) {
       return AnimatedSplashScreen(
         splash: Column(
@@ -44,12 +46,15 @@ class MyApp extends StatelessWidget {
         duration: 2000,
         splashTransition: SplashTransition.slideTransition,
       );
+      // if user signed in talk details from users collection
     } else {
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
       UserModel userModel = UserModel.fromJson(userData);
+      // if user has not picked a role, 
+      // push register screen to the user to input details
       if (userModel.role == "null") {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -87,6 +92,7 @@ class MyApp extends StatelessWidget {
           },
           
         );
+        // enter user to application
       } else {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -131,7 +137,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Music Base',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

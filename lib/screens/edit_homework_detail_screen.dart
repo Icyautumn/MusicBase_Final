@@ -76,72 +76,74 @@ class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
       appBar: AppBar(
         title: Text('Add Homework'),
       ),
-      body: Container(
-        color: Color(0xff757575),
-        child: Form(
-          key: form,
-          child: Container(
-            padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                initialValue: selectedHomeworkDetail.homeworkDetail,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "enter Homework"),
-                autofocus: true,
-                textAlign: TextAlign.center,
-                onSaved: (newText) {
-                  homeworkDetail = newText;
-                },
-              ), 
-              TextFormField(
-                initialValue: selectedHomeworkDetail.studentUsername,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "enter student Username"),
-                autofocus: true,
-                textAlign: TextAlign.center,
-                onSaved: (newText) {
-                  studentUsername = newText;
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(datePicked == null? "Picked date: " +
-                          DateFormat('dd/MM/yyyy').format(selectedHomeworkDetail.dueDate) :
-                          "Picked date: " +
-                          DateFormat('dd/MM/yyyy').format(datePicked!),),
-                  TextButton(
-                      child: Text('Choose Date',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      onPressed: () {
-                        presentDatePick(context);
-                      })
-                ],
-              ),
-              FlatButton(
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xff757575),
+          child: Form(
+            key: form,
+            child: Container(
+              padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  initialValue: selectedHomeworkDetail.homeworkDetail,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "enter Homework"),
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  onSaved: (newText) {
+                    homeworkDetail = newText;
+                  },
+                ), 
+                TextFormField(
+                  initialValue: selectedHomeworkDetail.studentUsername,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "enter student Username"),
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  onSaved: (newText) {
+                    studentUsername = newText;
+                  },
                 ),
-                color: Colors.lightBlueAccent,
-                onPressed: () {
-                  editHomework(context, selectedHomeworkDetail.id, selectedHomeworkDetail.dueDate);
-                },
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(datePicked == null? "Picked date: " +
+                            DateFormat('dd/MM/yyyy').format(selectedHomeworkDetail.dueDate) :
+                            "Picked date: " +
+                            DateFormat('dd/MM/yyyy').format(datePicked!),),
+                    TextButton(
+                        child: Text('Choose Date',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          presentDatePick(context);
+                        })
+                  ],
+                ),
+                FlatButton(
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  color: Colors.lightBlueAccent,
+                  onPressed: () {
+                    editHomework(context, selectedHomeworkDetail.id, selectedHomeworkDetail.dueDate);
+                  },
+                ),
+              ],
+            ),
+                ),
           ),
-              ),
-        ),
-    )
+          ),
+      )
     );
   }
 }

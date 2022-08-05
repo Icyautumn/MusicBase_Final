@@ -27,20 +27,23 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
+            // check in users if theres any messages
                 .collection('users')
                 .doc(widget.user.uid)
                 .collection('messages')
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data.docs.length < 1) {
+               if (snapshot.data.docs.length < 1) {
                   return Center(
+                    // if no message show message
                     child: Text("Start Chatting Now !"),
                   );
                 }
                 return ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
+                      // show user that chat the user's image, name and last message 
                       var friendId = snapshot.data.docs[index].id;
                       var lastMsg = snapshot.data.docs[index]['last_msg'];
                       return FutureBuilder(
@@ -91,6 +94,7 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
             }),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.search),
+          // push to search screen
           onPressed: () {
             Navigator.push(
                 context,

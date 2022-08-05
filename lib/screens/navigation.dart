@@ -26,8 +26,6 @@ class _NavigationState extends State<Navigation> {
       HomeworkDetailListScreen(widget.user),
       Metronome(),
       Setting_Screen(widget.user)
-      // SettingScreen(widget.user),
-      
     ];
     return Scaffold(
       body: Center(
@@ -62,9 +60,9 @@ class _NavigationState extends State<Navigation> {
             label: 'Metronome',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.account_circle),
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
+            selectedIcon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined),
+            label: 'Settings',
           ),
         ],
       ),

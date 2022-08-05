@@ -18,6 +18,7 @@ class _LessonDetailListScreenState extends State<LessonDetailListScreen> {
   Widget build(BuildContext context) {
     FirestoreService fsService = FirestoreService();
     return StreamBuilder<List<LessonDetail>>(
+      // check if student or teacher
         stream: widget.user.role == 'teacher' ? fsService.getTeacherLessonDetail(widget.user.username) : fsService.getStudentLessonDetail(widget.user.username),
         builder: (context, snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
@@ -39,6 +40,7 @@ class _LessonDetailListScreenState extends State<LessonDetailListScreen> {
                           ? LessonList(widget.user)
                           : Column(
                               children: [
+                                // check if got lesson details
                                 SizedBox(height: 20),
                                 Image.asset('images/empty.png', width: 300),
                                 Text('No lessons yet, add a new one today!',
@@ -46,6 +48,7 @@ class _LessonDetailListScreenState extends State<LessonDetailListScreen> {
                                         Theme.of(context).textTheme.subtitle1),
                               ],
                             )),
+                            // only available for teacher
                   floatingActionButton: widget.user.role == 'teacher' ? FloatingActionButton(
                       onPressed: () {
                         Navigator.push(

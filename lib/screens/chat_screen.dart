@@ -27,6 +27,7 @@ class ChatScreen extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(80),
+              // show chat user image
               child: CircleAvatar(
                 child: Image.network(friendImage),
               ),

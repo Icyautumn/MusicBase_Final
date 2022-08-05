@@ -52,7 +52,7 @@ class _RegisterNormalEmailState extends State<RegisterNormalEmail> {
     if (isValid) {
       form.currentState!.save();
 
-      if (password != confirmPassword) {
+      if (password == confirmPassword) {
         checkerUsername = await fsService.checkUsernameUnique(username!);
         checkerEmail = await fsService.checkUsernameUnique(email!);
         AuthService authService = AuthService();

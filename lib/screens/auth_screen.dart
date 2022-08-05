@@ -19,6 +19,7 @@ class _AuthScreenState extends State<AuthScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future signInFunction() async {
+    // user picked google sign in 
     GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
       return;
@@ -31,9 +32,12 @@ class _AuthScreenState extends State<AuthScreen> {
 
     DocumentSnapshot userExist =
         await firestore.collection('users').doc(userCredential.user!.uid).get();
-
+    // if user exist do nothing
     if (userExist.exists) {
-    } else {
+
+    } 
+    // if user not in system, add details for the user 
+    else {
       await firestore.collection('users').doc(userCredential.user!.uid).set({
         'email': userCredential.user!.email,
         'image': userCredential.user!.photoURL,
@@ -44,7 +48,7 @@ class _AuthScreenState extends State<AuthScreen> {
         'emailType': "google"
       });
     }
-
+    // restart the application
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
   }
