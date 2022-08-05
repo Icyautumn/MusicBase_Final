@@ -23,7 +23,7 @@ class _changePasswordScreenState extends State<changePasswordScreen> {
 
     if (isValid) {
       final currentUser = await FirebaseAuth.instance.currentUser;
-
+      form.currentState!.save();
       AuthService authService = AuthService();
 
       if (cfmnewPassword == newPassword) {
