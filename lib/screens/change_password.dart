@@ -4,17 +4,19 @@ import 'package:chat_application/services/auth_service.dart';
 import 'package:chat_application/utils/kConstants.dart';
 import 'package:flutter/material.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
+class changePasswordScreen extends StatefulWidget {
   static String routeName = '/reset-password';
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  State<changePasswordScreen> createState() => _changePasswordScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _changePasswordScreenState extends State<changePasswordScreen> {
   String? email;
   var form = GlobalKey<FormState>();
-  String? textHolderEmail = "Email";
+  String? textHolderCurrentPassword = "current Password";
+  String? textHolderNewPassword = "New Password";
+  String? textHoldercfmNewPassword = "Confirm Password";
 
   reset() {
     bool isValid = form.currentState!.validate();
@@ -80,8 +82,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             const SizedBox(height: 20),
                             TextFormField(
                               decoration: InputDecoration(
-                                  labelText: textHolderEmail,
-                                  hintText: textHolderEmail,
+                                  labelText: textHolderCurrentPassword,
+                                  hintText: textHolderCurrentPassword,
                                   hintStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17,

@@ -129,23 +129,20 @@ class _AuthScreenState extends State<AuthScreen> {
                       height: 20,
                     ),
                     InkWell(
-                      child: SignUpContainer(st: "Sign Up"),
+                      child: SignUpContainer(st: "Login"),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RegisterNormalEmail()));
+                            builder: (context) => LoginForm()));
                       },
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     InkWell(
-                      child: RichText(
-                        text: RichTextSpan(
-                            one: "Have an account ? ", two: "Login"),
-                      ),
+                      child: SignUpContainer(st: "Sign Up"),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginForm()));
+                            builder: (context) => RegisterNormalEmail()));
                       },
                     ),
                     //Text("data"),

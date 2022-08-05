@@ -51,72 +51,92 @@ class _RegisterNormalEmailState extends State<RegisterNormalEmail> {
     bool isValid = form.currentState!.validate();
     if (isValid) {
       form.currentState!.save();
-      checkerUsername = await fsService.checkUsernameUnique(username!);
-      checkerEmail = await fsService.checkUsernameUnique(email!);
-      AuthService authService = AuthService();
-      if (checkerUsername == true && checkerEmail == true) {
-        if (profileTempImage == null) {
-          return authService.register(email, password).then((user) async {
-            await firestore.collection('users').doc(user.user?.uid).set({
-              'email': email,
-              'image': defaultPicture,
-              'username': username,
-              'role': student_or_teacher,
-              'uid': user.user!.uid,
-              'date': DateTime.now(),
-              'emailType': "email"
-            });
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-                (route) => false);
-          });
-        } else {
-          String? base64;
-          Reference ref = FirebaseStorage.instance.ref().child(
-              DateTime.now().toString() +
-                  '_' +
-                  basename(profileTempImage!.path));
-          UploadTask uploadTask = ref.putFile(profileTempImage!);
 
-          var imageUrl = await (await uploadTask).ref.getDownloadURL();
-          setState(() {
-            base64 = imageUrl.toString();
-          });
-          return authService.register(email, password).then((user) async {
-            await firestore.collection('users').doc(user.user?.uid).set({
-              'email': email,
-              'image': base64,
-              'username': username,
-              'role': student_or_teacher,
-              'uid': user.user!.uid,
-              'date': DateTime.now(),
-              'emailType': "email"
+      if (password != confirmPassword) {
+        checkerUsername = await fsService.checkUsernameUnique(username!);
+        checkerEmail = await fsService.checkUsernameUnique(email!);
+        AuthService authService = AuthService();
+        if (checkerUsername == true && checkerEmail == true) {
+          if (profileTempImage == null) {
+            return authService.register(email, password).then((user) async {
+              await firestore.collection('users').doc(user.user?.uid).set({
+                'email': email,
+                'image': defaultPicture,
+                'username': username,
+                'role': student_or_teacher,
+                'uid': user.user!.uid,
+                'date': DateTime.now(),
+                'emailType': "email"
+              });
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (route) => false);
             });
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-                (route) => false);
-          });
+          } else {
+            String? base64;
+            Reference ref = FirebaseStorage.instance.ref().child(
+                DateTime.now().toString() +
+                    '_' +
+                    basename(profileTempImage!.path));
+            UploadTask uploadTask = ref.putFile(profileTempImage!);
+
+            var imageUrl = await (await uploadTask).ref.getDownloadURL();
+            setState(() {
+              base64 = imageUrl.toString();
+            });
+            return authService.register(email, password).then((user) async {
+              await firestore.collection('users').doc(user.user?.uid).set({
+                'email': email,
+                'image': base64,
+                'username': username,
+                'role': student_or_teacher,
+                'uid': user.user!.uid,
+                'date': DateTime.now(),
+                'emailType': "email"
+              });
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (route) => false);
+            });
+          }
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) {
+                // let user know to input image
+                return AlertDialog(
+                  title: Text('Username Taken'),
+                  content: Text("Please input another username"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('ok'))
+                  ],
+                );
+              });
         }
-      } else {
-        showDialog(
-            context: context,
-            builder: (context) {
-              // let user know to input image
-              return AlertDialog(
-                title: Text('Username Taken'),
-                content: Text("Please input another username"),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('ok'))
-                ],
-              );
-            });
-      }
+      }else {
+          showDialog(
+              context: context,
+              builder: (context) {
+                // let user know to input image
+                return AlertDialog(
+                  title: Text('Password does not match'),
+                  content: Text("Password does not match"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('ok'))
+                  ],
+                );
+              });
+        }
     }
   }
 
@@ -142,6 +162,16 @@ class _RegisterNormalEmailState extends State<RegisterNormalEmail> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          centerTitle: true,
+          title: Text(
+            "Register",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 13),
@@ -152,11 +182,6 @@ class _RegisterNormalEmailState extends State<RegisterNormalEmail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Register",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26,
-                        )),
                     const SizedBox(
                       height: 10,
                     ),
@@ -379,7 +404,7 @@ class _RegisterNormalEmailState extends State<RegisterNormalEmail> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  LoginForm()));
+                            builder: (context) => LoginForm()));
                       },
                     ),
                     //Text("data"),

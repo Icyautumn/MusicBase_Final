@@ -53,6 +53,16 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          centerTitle: true,
+          title: Text(
+            "Login",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 13),
@@ -63,11 +73,6 @@ class _LoginFormState extends State<LoginForm> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Login",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26,
-                        )),
                     const SizedBox(
                       height: 10,
                     ),

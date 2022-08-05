@@ -3,7 +3,8 @@ import 'package:chat_application/screens/chat_main_screen.dart';
 import 'package:chat_application/screens/homework_detail_screen.dart';
 import 'package:chat_application/screens/lesson_detail_list.screen.dart';
 import 'package:chat_application/screens/metronome.dart';
-import 'package:chat_application/screens/settings_screen.dart';
+import 'package:chat_application/screens/setting_screen_final.dart';
+import 'package:chat_application/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {
@@ -24,7 +25,8 @@ class _NavigationState extends State<Navigation> {
       ChatMainScreen(widget.user),
       HomeworkDetailListScreen(widget.user),
       Metronome(),
-      SettingScreen(widget.user),
+      Setting_Screen(widget.user)
+      // SettingScreen(widget.user),
       
     ];
     return Scaffold(
