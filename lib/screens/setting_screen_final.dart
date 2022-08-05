@@ -1,5 +1,6 @@
 import 'package:chat_application/models/user_model.dart';
 import 'package:chat_application/screens/auth_screen.dart';
+import 'package:chat_application/screens/change_password.dart';
 import 'package:chat_application/screens/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _Setting_ScreenState extends State<Setting_Screen> {
             child: GestureDetector(
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => profileScreen(this.widget.user)));
+                                    builder: (context) => changePasswordScreen()));
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

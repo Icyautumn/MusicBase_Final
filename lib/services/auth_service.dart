@@ -33,4 +33,6 @@ class AuthService {
   Future<void> forgotPassword(email) {
     return FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
+
+  
 }

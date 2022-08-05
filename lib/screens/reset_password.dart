@@ -2,6 +2,7 @@
 import 'package:chat_application/screens/login_form.dart';
 import 'package:chat_application/services/auth_service.dart';
 import 'package:chat_application/utils/kConstants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordScreen extends StatefulWidget {

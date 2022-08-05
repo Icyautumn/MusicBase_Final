@@ -212,9 +212,6 @@ class profileScreenState extends State<profileScreen> {
                     ),
                     ElevatedButton(
                         onPressed: () => saveForm(context, student_or_teacher),
-                        child: Text('change password')),
-                    ElevatedButton(
-                        onPressed: () => saveForm(context, student_or_teacher),
                         child: Text('Save'))
                   ],
                 ),
