@@ -1,16 +1,21 @@
-# chat_application
+# MusicBase
+<img src= 'assets/musicBase_logo.png' align="left"/>
 
-A new Flutter project.
+MusicBase is a mobile application that helps music teachers communicate effectively with students/parents with the use of technology. 
+<br clear='left'>
+## Features of MusicBase Includes:
+- lesson page such as what they did for lesson, date of lesson, take photo of lesson materials to store in the database. 
+- Homework page, teachers can set homework, homework's due date for students to do. This will also send a notification 2 days before the homework's due date to the student when he/she have yet to complete it.
+- In built metronome, allowing the user to select from 30 bpm to 200 bpm.
+- In built chat system.
 
-## Getting Started
+## Built using:
 
-This project is a starting point for a Flutter application.
+### Backend
 
-A few resources to get you started if this is your first Flutter project:
+-   [Firebase & Firestore](https://firebase.google.com/)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Frontend
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-   [Flutter](https://flutter.dev/)
+-   [Dart](https://dart.dev/)
