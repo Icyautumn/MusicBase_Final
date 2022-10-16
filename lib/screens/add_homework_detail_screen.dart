@@ -122,14 +122,16 @@ class _AddHomeworkDetailScreenState extends State<AddHomeworkDetailScreen> {
                           })
                     ],
                   ),
-                  FlatButton(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.lightBlueAccent
+                    ),
                     child: Text(
                       'Add',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
-                    color: Colors.lightBlueAccent,
                     onPressed: () {
                       addHomework(context);
                     },

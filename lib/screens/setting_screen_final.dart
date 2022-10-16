@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 class Setting_Screen extends StatefulWidget {
   UserModel user;
   Setting_Screen(this.user);
@@ -23,39 +22,42 @@ class _Setting_ScreenState extends State<Setting_Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Setting Screen"),
-          centerTitle: true,
-          backgroundColor: Colors.teal,
-        ),
+        title: Text("Setting Screen"),
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+      ),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: Column(
           children: [
             Stack(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(widget.user.image) as ImageProvider)),
-                    ),
-                  ],
+              children: [
+                Container(
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 4,
+                          color: Theme.of(context).scaffoldBackgroundColor),
+                      boxShadow: [
+                        BoxShadow(
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.1),
+                            offset: Offset(0, 10))
+                      ],
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(widget.user.image)
+                              as ImageProvider)),
                 ),
-                SizedBox(height: 10,)
-,            ListView(
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ListView(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: [
@@ -71,7 +73,8 @@ class _Setting_ScreenState extends State<Setting_Screen> {
                     ),
                     Text(
                       "Account",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -83,67 +86,74 @@ class _Setting_ScreenState extends State<Setting_Screen> {
                   height: 10,
                 ),
                 Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => profileScreen(this.widget.user)));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Account Details",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              profileScreen(this.widget.user)));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Account Details",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                        ),
+                      ],
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            ),
-      ),
-      SizedBox(height: 8,),
-      this.widget.user.emailType == "email" ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => changePasswordScreen()));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Change Password",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            ),
-      ) : Padding(padding: const EdgeInsets.symmetric(vertical: 8.0)),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                this.widget.user.emailType == "email"
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => changePasswordScreen()));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Change Password",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0)),
                 SizedBox(
                   height: 40,
                 ),
                 Center(
-                  child: OutlineButton(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                     onPressed: () async {
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    onPressed: () async {
                       await GoogleSignIn().signOut();
                       await FirebaseAuth.instance.signOut();
                       Navigator.pushAndRemoveUntil(
@@ -153,7 +163,9 @@ class _Setting_ScreenState extends State<Setting_Screen> {
                     },
                     child: Text("SIGN OUT",
                         style: TextStyle(
-                            fontSize: 16, letterSpacing: 2.2, color: Colors.black)),
+                            fontSize: 16,
+                            letterSpacing: 2.2,
+                            color: Colors.black)),
                   ),
                 )
               ],
@@ -163,7 +175,6 @@ class _Setting_ScreenState extends State<Setting_Screen> {
       ),
     );
   }
-
 
   GestureDetector buildAccountOptionRow(BuildContext context, String title) {
     return GestureDetector(
@@ -182,7 +193,7 @@ class _Setting_ScreenState extends State<Setting_Screen> {
                   ],
                 ),
                 actions: [
-                  FlatButton(
+                  ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },

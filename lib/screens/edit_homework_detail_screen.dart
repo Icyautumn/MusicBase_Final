@@ -126,14 +126,16 @@ class _EditHomeworkDetailScreenState extends State<EditHomeworkDetailScreen> {
                         })
                   ],
                 ),
-                FlatButton(
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.lightBlueAccent
+                    ),
                   child: Text(
                     'Edit',
                     style: TextStyle(
                       color: Colors.white,
                     ),
                   ),
-                  color: Colors.lightBlueAccent,
                   onPressed: () {
                     editHomework(context, selectedHomeworkDetail.id, selectedHomeworkDetail.dueDate);
                   },

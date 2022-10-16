@@ -204,7 +204,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                     ),
                   ),
-                  FlatButton(
+                  ElevatedButton(
                       onPressed: () =>saveForm(context, student_or_teacher),
                       child: Text('Register'))
                 ],
